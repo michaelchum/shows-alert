@@ -7,7 +7,7 @@ class Users(models.Model):
 	password = models.CharField(max_length=8)
 
 	def __unicode__(self):
-		return self.name + self.email
+		return self.name
 
 class TvShows(models.Model):
 	"""docstring foTvShowsme"""

@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import re
 import urllib2
+from episodes.models import TvShows
 """ 
 redditFile = urllib2.urlopen("http://www.reddit.com")
 redditHtml = redditFile.read()
@@ -42,12 +43,14 @@ def getLatestEpisodes(listOfShows):
 						#print(url.a.get('href'))
 						#listOfShows[show] = url.a.get('href')
 						listOfShows[show].append(url.a.get('href'))
+						p = TvShows(show_name=show, show_link=listOfShows[show])
+						p.save()						
 
 
 	return listOfShows
 
 
-testDict = {'LoL' : [], 'Comedy Bang! Bang!' : [] , '24 Hours In A and E': [], 'Jeopardy' : [], 'Star Trek The Next Generation' : []} 
+testDict = {'Homeland' : [], 'Swamp Pawn' : [] , 'Monsters vs. Aliens': [], 'Jeopardy' : [], 'Time of Death' : []} 
 
 testDict = getLatestEpisodes(testDict)
 

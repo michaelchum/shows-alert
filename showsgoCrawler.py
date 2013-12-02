@@ -43,14 +43,15 @@ def getLatestEpisodes(listOfShows):
 						#print(url.a.get('href'))
 						#listOfShows[show] = url.a.get('href')
 						listOfShows[show].append(url.a.get('href'))
-						p = TvShows(show_name=show, show_link=listOfShows[show])
+						stream = url.a.get('href')
+						p = TvShows(show_name=show , show_link=stream)
 						p.save()						
 
 
 	return listOfShows
 
 
-testDict = {'Homeland' : [], 'Swamp Pawn' : [] , 'Monsters vs. Aliens': [], 'Jeopardy' : [], 'Time of Death' : []} 
+testDict = {'Homeland' : [], 'Swamp Pawn' : [] , 'Monsters vs. Aliens': [], 'Jeopardy' : [], 'Time of Death' : [], 'The Mentalist': []} 
 
 testDict = getLatestEpisodes(testDict)
 

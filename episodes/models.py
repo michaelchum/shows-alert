@@ -12,8 +12,8 @@ class Users(models.Model):
 class TvShows(models.Model):
 	"""docstring foTvShowsme"""
 	show_name = models.CharField(max_length=100)
-	show_link = models.URLField(max_length=200)
-	name_list = models.ManyToManyField(Users)
+	show_link = models.URLField(max_length=300)
+	#name_list = models.ManyToManyField(Users)
 	
 	def __unicode__(self):
-		return self.show_name
+		return '%s %s' % (self.show_name, self.show_link)

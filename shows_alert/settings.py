@@ -131,7 +131,12 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'episodes',
+    'django_crontab',
 )
+
+CRONJOBS = [
+    ('*/2 * * * *', 'shows-alert.shows_alert.cron.myJob')
+]
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 

@@ -39,7 +39,7 @@ def getLatestEpisodes(listOfShows):
 			for links in soup.ul.find_all('li'):
 				for url in links.find_all('div', {'class' : 'cover'}):
 					#print(url.a.get('title') + " " + url.a.get('href'))
-					if ( show in url.a.get('title')):
+					if ( show.lower() in url.a.get('title').lower()):
 						#print(url.a.get('href'))
 						#listOfShows[show] = url.a.get('href')
 						listOfShows[show].append(url.a.get('href'))

@@ -4,8 +4,13 @@
 #setup_environ(settings)
 
 # For reference: https://github.com/kraiz/django-crontab
+
 from episodes.models import TvShows
 
 def myJob():
-	print TvShows.objects.all()
+	#print TvShows.objects.all()
+    print("Hello World!!!")
+
+myJob()
+
 

@@ -18,3 +18,12 @@ class TvShows(models.Model):
 	
 	def __unicode__(self):
 		return '%s %s %s' % (self.show_name, self.season_episode, self.show_link)
+
+	def getShowName(self):
+		return self.show_name
+
+	def getShowLink(self):
+		return self.show_link
+
+	def getSeasonAndEpisode(self):
+		return self.season_episode

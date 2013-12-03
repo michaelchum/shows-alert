@@ -4,8 +4,9 @@ import smtplib
 
 SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 587
-SMTP_USERNAME = "uehtesham90@gmail.com"
-SMTP_PASSWORD = "mutation1A"
+# Add your credentials here
+SMTP_USERNAME = ""
+SMTP_PASSWORD = ""
 
 EMAIL_FROM = "uehtesham90@gmail.com"
 EMAIL_SPACE = ", "
@@ -24,5 +25,3 @@ def send_email(to, subject, link):
 
 # if __name__=='__main__':
 #     send_email()
-to = ['usman.ehtesham@mail.mcgill.ca', 'uehtesham90@gmail.com']
-send_email(to, 'hey fucker', 'here is the link to latest episode')

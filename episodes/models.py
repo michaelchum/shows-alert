@@ -14,7 +14,8 @@ class TvShows(models.Model):
 	show_name = models.CharField(max_length=100)
 	show_link = models.URLField(max_length=300)
 	season_episode = models.CharField(max_length=300)
-	#name_list = models.ManyToManyField(Users)
+	name_list = models.ManyToManyField(Users)
+	#name_list = ['uehtesham90@gmail.com', 'usman.ehtesham@mail.mcgill.ca']
 	
 	def __unicode__(self):
 		return '%s %s %s' % (self.show_name, self.season_episode, self.show_link)
@@ -27,3 +28,6 @@ class TvShows(models.Model):
 
 	def getSeasonAndEpisode(self):
 		return self.season_episode
+
+	def getUsers(self):
+		return self.name_list

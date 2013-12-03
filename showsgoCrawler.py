@@ -24,13 +24,13 @@ def getLatestEpisodes(listOfShows):
 	showsgoHtmls.append(showsgoHtml)
 	showsgoFile.close()
 
-	for i in range(2, 11):
-		text = "http://showsgo.com/page/%d"%i
-		#print(text)
-		showsgoFile = urllib2.urlopen(text)
-		showsgoHtml = showsgoFile.read()
-		showsgoHtmls.append(showsgoHtml)
-		showsgoFile.close()	
+	# for i in range(2, 11):
+	# 	text = "http://showsgo.com/page/%d"%i
+	# 	#print(text)
+	# 	showsgoFile = urllib2.urlopen(text)
+	# 	showsgoHtml = showsgoFile.read()
+	# 	showsgoHtmls.append(showsgoHtml)
+	# 	showsgoFile.close()	
 
 	# soup = BeautifulSoup(showsgoHtml)
 
@@ -54,11 +54,11 @@ def getLatestEpisodes(listOfShows):
 
 
 
-#testDict = {'Conan': [], 'Jeopardy': [], 'Regular Show' : [], 'The Voice': []} 
-testDict = {'How i met your mother' : []} 
+testDict = {'Conan': [], 'Jeopardy': [], 'Regular Show' : [], 'The Voice': []} 
+#testDict = {'How i met your mother' : []} 
 
 #to = ['uehtesham90@gmail.com', 'usman.ehtesham@mail.mcgill.ca', 'michaelhochum@gmail.com']
-to = ['uehtesham90@gmail.com']
+#to = ['uehtesham90@gmail.com']
 testDict = getLatestEpisodes(testDict)
 
 print len(TvShows.objects.all())
@@ -67,6 +67,7 @@ for i in TvShows.objects.all():
 	# print i.getShowName()
 	# print i.getShowLink()
 	# print i.getSeasonAndEpisode()
+	to = i.getUsers()
 	s = 'Here is link to the latest episode of ' + i.getShowName() +' : \n' + i.getShowLink()
 	send_email(to, i.getSeasonAndEpisode() , s)
 

@@ -13,7 +13,8 @@ class TvShows(models.Model):
 	"""docstring foTvShowsme"""
 	show_name = models.CharField(max_length=100)
 	show_link = models.URLField(max_length=300)
+	season_episode = models.CharField(max_length=300)
 	#name_list = models.ManyToManyField(Users)
 	
 	def __unicode__(self):
-		return '%s %s' % (self.show_name, self.show_link)
+		return '%s %s %s' % (self.show_name, self.season_episode, self.show_link)

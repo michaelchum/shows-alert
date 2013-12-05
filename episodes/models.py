@@ -1,20 +1,10 @@
 from django.db import models
-
-# Create your models here.
-class Users(models.Model):
-	name = models.CharField(max_length=100)
-	email = models.CharField(max_length=100)
-	password = models.CharField(max_length=8)
-
-	def __unicode__(self):
-		return self.name
+from django.contrib.auth.models import User
 
 class TvShows(models.Model):
-	"""docstring foTvShowsme"""
 	show_name = models.CharField(max_length=100)
 	show_link = models.URLField(max_length=300)
 	season_episode = models.CharField(max_length=300)
-	name_list = models.ManyToManyField(Users)
 	#name_list = ['uehtesham90@gmail.com', 'usman.ehtesham@mail.mcgill.ca']
 	
 	def __unicode__(self):
@@ -31,3 +21,17 @@ class TvShows(models.Model):
 
 	def getUsers(self):
 		return self.name_list
+
+class UserProfile(models.Model):
+	user = models.OneToOneField(User)
+	show_list = models.ManyToManyField(TvShows)
+	latest_link = models.URLField(max_length=300)
+
+	def getLatestLink(self):
+		return self.latest_link
+
+	def getShowList(self):
+		return self.show_list
+
+	def __unicode__(self):
+		return self.user.username

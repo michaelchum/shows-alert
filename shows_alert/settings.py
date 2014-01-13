@@ -1,17 +1,16 @@
-# Django settings for shows_alert project.
-
+# Django settings for tango_project project.
 import os
 PROJECT_PATH = os.getcwd()
 TEMPLATE_PATH = os.path.join(PROJECT_PATH, 'templates')
+STATIC_PATH = os.path.join(PROJECT_PATH, 'static')
 DATABASE_PATH = os.path.join(PROJECT_PATH, 'shows.db')
 MEDIA_PATH = os.path.join(PROJECT_PATH, 'media')
-
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+    # ('Michael', 'michaelhochum@gmail.com'),
 )
 
 MANAGERS = ADMINS
@@ -57,7 +56,7 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-MEDIA_ROOT = MEDIA_PATH # For pictures of TV Shows
+MEDIA_ROOT = MEDIA_PATH
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -72,6 +71,7 @@ STATIC_ROOT = ''
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
+# The 2 slashes are extremely important
 STATIC_URL = '/static/'
 
 # Additional locations of static files
@@ -79,6 +79,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    STATIC_PATH,
 )
 
 # List of finder classes that know how to find static files in
@@ -90,7 +91,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = '3clzu%#0g81)#ba8%(ms)a*4ju+w2%!52e!jdz9mtl9x*q4r8j'
+SECRET_KEY = 'nyej+#ctcz!$fi90vua1h_x-@0p6e+x^rsn6fstey68&9p0%2@'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -122,8 +123,8 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
+    'django.contrib.auth', # For user auth
+    'django.contrib.contenttypes', # For user auth
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
@@ -131,16 +132,13 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
-    'django.contrib.admindocs',
-    'episodes',
-    'django_crontab',
+    # 'django.contrib.admindocs',
+    'rango',
 )
 
-CRONJOBS = [
-    ('*/2 * * * *', 'shows-alert.shows_alert.cron.myJob')
-]
-
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
+
+LOGIN_URL = '/rango/login/'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

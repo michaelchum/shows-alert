@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 import re
 import urllib2
-from episodes.models import TvShows
+from rango.models import TvShows
 """ 
 redditFile = urllib2.urlopen("http://www.reddit.com")
 redditHtml = redditFile.read()

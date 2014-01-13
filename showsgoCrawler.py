@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 import re
 import urllib2
-from episodes.models import TvShows
+from rango.models import TvShows
 from sendEmail import send_email
 
 """ 
@@ -52,8 +52,6 @@ def getLatestEpisodes(listOfShows):
 							p.save()												
 	return listOfShows
 
-
-
 testDict = {'Conan': [], 'Jeopardy': [], 'Regular Show' : [], 'The Voice': []} 
 #testDict = {'How i met your mother' : []} 
 
@@ -70,8 +68,6 @@ for i in TvShows.objects.all():
 	to = i.getUsers()
 	s = 'Here is link to the latest episode of ' + i.getShowName() +' : \n' + i.getShowLink()
 	send_email(to, i.getSeasonAndEpisode() , s)
-
-
 
 # for key in testDict:
 # 	s = 'Here is link to the latest episodes: \n'

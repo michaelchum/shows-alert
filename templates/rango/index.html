@@ -10,10 +10,10 @@
 <div class="row-fluid">
     <div class="span6">
         <h2>Top Five Shows</h2>
-        {% if categories %}
+        {% if show_list %}
         <ul>
-            {% for category in categories %}
-            <li><strong><a href="/rango/category/{{ category.url }}">{{ category.show_name }}</a></strong></li>
+            {% for show in show_list %}
+            <li><strong><a href="/rango/show/{{ show.url }}">{{ show.show_name }}</a></strong></li>
             {% endfor %}
         </ul>
         {% else %}
@@ -24,16 +24,15 @@
     
     <div class="span6">
         <h2>Top Five Episodes</h2>
-        {% if pages %}
+        {% if episodes %}
         <ul>
-            {% for page in pages %}
-            <li><strong><a href="{{ page.url}}">{{ page.show_name }}</a> - {{ page.show_name }} ({{ page.likes }} like(s))</strong></li>
+            {% for episode in episodes %}
+            <li><strong><a href="/rango/{{ episode.show.url}}">{{ episode.show.show_name }} </a> - {{ episode.season_episode }}</strong></li>
             {% endfor %}
         </ul>
         {% else %}
         <strong>No pages at present.</strong>
         {% endif %}
-
     </div>
 
 </div>

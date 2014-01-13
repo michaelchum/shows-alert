@@ -3,13 +3,14 @@ from django.contrib.auth.models import User
 
 class TvShows(models.Model):
 	show_name = models.CharField(max_length=100)
+	url = models.URLField(max_length=300)
 	show_link = models.URLField(max_length=300)
 	picture_link = models.URLField(max_length=300)
 	season_episode = models.CharField(max_length=300)
 	likes = models.IntegerField(default=0)
-	#name_list = ['uehtesham90@gmail.com', 'usman.ehtesham@mail.mcgill.ca']
+	users = ['uehtesham90@gmail.com', 'usman.ehtesham@mail.mcgill.ca']
 	#name_list = models.ManyToManyField(User)
-	users = models.ManyToManyField(User, blank=True)
+	#users = models.ManyToManyField(User, blank=True)
 	
 	def __unicode__(self):
 		return '%s %s %s' % (self.show_name, self.season_episode, self.show_link)

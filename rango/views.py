@@ -4,17 +4,15 @@
 from django.http import HttpResponse
 from django.template import RequestContext
 from django.shortcuts import render_to_response
-from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm
+from rango.forms import UserForm, UserProfileForm
 
-# Import the Category model
-from rango.models import Category, Page
+from rango.models import TvShows
 
 # Import stuff for authentication (login)
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
 
 from django.contrib.auth.decorators import login_required
-from rango.bing_search import run_query
 
 # Each view takes at least one argument, a HttpRequest object which is also from django.http module
 # By convention, it is named request
@@ -24,14 +22,12 @@ from rango.bing_search import run_query
 # This attribute stores an encoded URL (e.g. spaces replaced with underscores).
 def encodeURL(category_list):
 	for category in category_list:
-		category.url = category.name.replace(' ', '_')
+		category.url = category.show_name.replace(' ', '_')
 	return
 
 # Change underscores in the category name to spaces.
 # URLs don't handle spaces well, so we encode them as underscores.
 # We can then simply replace the underscores with spaces again to get the name.
-def decodeURL(category_name_url):
-	return category_name_url.replace('_', ' ')
 
 def encode_url(name):
 	return name.replace(' ', '_')
@@ -40,7 +36,7 @@ def decode_url(name):
 	return name.replace('_', ' ')
 
 def get_category_list():
-	cat_list = Category.objects.all()
+	cat_list = TvShows.objects.all()
 
 	encodeURL(cat_list)
 
@@ -49,16 +45,16 @@ def get_category_list():
 def get_category_list(max_results=0, starts_with=''):
 	cat_list = []
 	if starts_with:
-		cat_list = Category.objects.filter(name__startswith=starts_with)
+		cat_list = TvShows.objects.filter(name__startswith=starts_with)
 	else:
-		cat_list = Category.objects.all()
+		cat_list = TvShows.objects.all()
 
 	if max_results > 0:
 		if len(cat_list) > max_results:
 			cat_list = cat_list[:max_results]
 
 	for cat in cat_list:
-		cat.url = encode_url(cat.name)
+		cat.url = encode_url(cat.show_name)
 
 	return cat_list
 
@@ -84,11 +80,11 @@ def index(request):
 	# Order the categories by no. likes in descending order
 	# Retrieve the top 5 only - or all if less than 5.
 	# Place the list in our context_dict dictionary which will be passed to the template engine
-	category_most_likes = Category.objects.order_by('-likes')[:5]
-	categories = Category.objects.order_by('-views')[:5]
-	pages = Page.objects.order_by('-views')[:5]
-	context_dict = {'categories_likes': category_most_likes, 'categories': categories, 'pages': pages}
-	encodeURL(category_most_likes)
+	tvshows_most_likes = TvShows.objects.order_by('-likes')[:5]
+	categories = TvShows.objects.order_by('-likes')[:5]
+	pages = TvShows.objects.order_by('-likes')[:5]
+	context_dict = {'categories_likes': tvshows_most_likes, 'categories': categories, 'pages': pages}
+	encodeURL(tvshows_most_likes)
 	encodeURL(categories)
 
 	# Get the category list and display on page
@@ -105,6 +101,14 @@ def about(request):
 	context = RequestContext(request)
 	context_dict = {'boldmessage': "Rango says: Here is the about page."}
 	return render_to_response('rango/about.html', context_dict, context)
+
+def shows_list(request):
+	context = RequestContext(request)
+	shows = get_category_list()
+
+	context_dict = {'shows': shows}
+
+	return render_to_response('rango/shows_list.html', context_dict, context)
 
 def category(request, category_name_url):
 	# Request our context from the request passed to us.
@@ -138,67 +142,6 @@ def category(request, category_name_url):
 
 	# Go render the response and return it to the client.
 	return render_to_response('rango/category.html', context_dict, context)
-
-def add_category(request):
-	# Get the context from the request.
-	context = RequestContext(request)
-
-	# A HTTP POST?
-	if request.method == 'POST':
-		form = CategoryForm(request.POST)
-
-		# Have we been provided with a valid form?
-		if form.is_valid():
-			# Save the new category to the database.
-			form.save(commit=True)
-
-			# Now call the index() view.
-			# The user will be shown the homepage.
-			return index(request)
-		else:
-			# The supplied form contained errors - just print them to the terminal.
-			print form.errors
-	else:
-		# If the request was not a POST, display the form to enter details.
-		form = CategoryForm()
-
-	# Bad form (or form details), no form supplied...
-	# Render the form with error messages (if any).
-	return render_to_response('rango/add_category.html', {'form': form}, context)
-
-def add_page(request, category_name_url):
-	context = RequestContext(request)
-
-	category_name = decodeURL(category_name_url)
-	if request.method == 'POST':
-		form = PageForm(request.POST)
-
-		if form.is_valid():
-			# This time we cannot commit straight away.
-			# Not all fields are automatically populated!
-			page = form.save(commit=False)
-
-			# Retrieve the associated Category object so we can add it.
-			cat = Category.objects.get(name=category_name)
-			page.category = cat
-
-			# Also, create a default value for the number of views.
-			page.views = 0
-
-			# With this, we can then save our new model instance.
-			page.save()
-
-			# Now that the page is saved, display the category instead.
-			return category(request, category_name_url)
-		else:
-			print form.errors
-	else:
-		form = PageForm()
-
-	return render_to_response( 'rango/add_page.html',
-		{'category_name_url': category_name_url,
-		'category_name': category_name, 'form': form},
-		context)
 
 def register(request):
 	context = RequestContext(request)
@@ -282,7 +225,7 @@ def user_login(request):
 				return HttpResponseRedirect('/rango/')
 			else:
 				# An inactive account was used - no logging in!
-				return HttpResponse("Your Rango account is disabled.")
+				return HttpResponse("Your ShowsAlert account is disabled.")
 		else:
 			# Bad login details were provided. So we can't log the user in.
 			print "Invalid login details: {0}, {1}".format(username, password)
@@ -318,9 +261,9 @@ def like_category(request):
 
 	likes = 0
 	if cat_id:
-		category = Category.objects.get(id=int(cat_id))
+		category = TvShows.objects.get(id=int(cat_id))
 		if category:
-			likes = category.likes + 1
+			likes = TvShows.likes + 1
 			category.likes =  likes
 			category.save()
 

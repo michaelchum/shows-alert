@@ -52,7 +52,7 @@ def getLatestEpisodes(listOfShows):
 							p.save()												
 	return listOfShows
 
-testDict = {'Conan': [], 'Jeopardy': [], 'Regular Show' : [], 'The Voice': []} 
+testDict = {'Conan': [], 'Jeopardy': [], 'Regular Show' : [], 'The Voice': [], 'The Bachelor': []} 
 #testDict = {'How i met your mother' : []} 
 
 #to = ['uehtesham90@gmail.com', 'usman.ehtesham@mail.mcgill.ca', 'michaelhochum@gmail.com']

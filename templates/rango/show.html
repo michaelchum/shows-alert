@@ -1,0 +1,28 @@
+{% extends 'rango/base.html' %}
+
+{% block title %}{{ show_name }}{% endblock %}
+
+{% block body_block %}
+    <h1>{{ show_name }}</h1>
+
+    <div>
+        <p>
+
+        {% if user.is_authenticated %}
+                <button id ="likes" data-catid="{{category.id}}" class="btn btn-mini btn-primary" type="button">Add</button>
+        {% endif %}
+
+        <b id="like_count">{{ number_added }}</b> user(s) added this show
+
+        </p>
+    </div>
+
+    {% if show.picture_link %}
+
+        <img class="featurette-image img-responsive" src="{{ show.picture_link }}">
+
+    {% else %}
+        <strong>No picture for this show.</strong>
+    {% endif %}
+
+{% endblock %}

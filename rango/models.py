@@ -6,6 +6,7 @@ class TvShows(models.Model):
 	url = models.URLField(max_length=300, blank=True)
 	picture_link = models.URLField(max_length=300, blank=True)
 	likes = models.IntegerField(default=5)
+	added = models.IntegerField(default=5)
 	# season_episode = models.CharField(max_length=300)
 	users = ['uehtesham90@gmail.com']
 	#name_list = models.ManyToManyField(User)
@@ -21,10 +22,11 @@ class TvShows(models.Model):
 		return self.users
 
 class Episode(models.Model):
-	episode = models.ForeignKey('TvShows')
+	show = models.ForeignKey('TvShows')
 	show_link = models.URLField(max_length=300)
 	season_episode = models.CharField(max_length=300)
 	sent = models.BooleanField(default=False)
+	creation_date = models.DateTimeField(auto_now_add = True, editable=False)
 
 	def __unicode__(self):
 		return '%s %s %s' % (self.season_episode, self.show_link, self.sent)

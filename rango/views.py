@@ -6,7 +6,8 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response
 from rango.forms import UserForm, UserProfileForm
 
-from rango.models import TvShows
+from rango.models import TvShows, Episode
+from django.contrib.auth.models import User
 
 # Import stuff for authentication (login)
 from django.contrib.auth import authenticate, login, logout
@@ -20,9 +21,9 @@ from django.contrib.auth.decorators import login_required
 
 # We loop through each category returned, and create a URL attribute.
 # This attribute stores an encoded URL (e.g. spaces replaced with underscores).
-def encodeURL(category_list):
-	for category in category_list:
-		category.url = category.show_name.replace(' ', '_')
+def encodeURL(show_list):
+	for show in show_list:
+		show.url = show.show_name.replace(' ', '_')
 	return
 
 # Change underscores in the category name to spaces.
@@ -80,14 +81,12 @@ def index(request):
 	# Order the categories by no. likes in descending order
 	# Retrieve the top 5 only - or all if less than 5.
 	# Place the list in our context_dict dictionary which will be passed to the template engine
-	tvshows_most_likes = TvShows.objects.order_by('-likes')[:5]
-	categories = TvShows.objects.order_by('-likes')[:5]
-	pages = TvShows.objects.order_by('-likes')[:5]
-	context_dict = {'categories_likes': tvshows_most_likes, 'categories': categories, 'pages': pages}
-	encodeURL(tvshows_most_likes)
-	encodeURL(categories)
+	show_list = TvShows.objects.order_by('-likes')[:5]
+	episodes = Episode.objects.order_by('-creation_date')[:5]
+	encodeURL(show_list)
+	context_dict = {'show_list': show_list, 'episodes': episodes}
 
-	# Get the category list and display on page
+	# Get the category list and display on page for sidebar
 	cat_list = get_category_list()
 	context_dict['cat_list'] = cat_list
 
@@ -100,48 +99,47 @@ def index(request):
 def about(request):
 	context = RequestContext(request)
 	context_dict = {'boldmessage': "Rango says: Here is the about page."}
+
+	# Get the category list and display on page for sidebar
+	cat_list = get_category_list()
+	context_dict['cat_list'] = cat_list
 	return render_to_response('rango/about.html', context_dict, context)
 
 def shows_list(request):
 	context = RequestContext(request)
-	shows = get_category_list()
+	show_list = get_category_list()
 
-	context_dict = {'shows': shows}
+	context_dict = {'show_list': show_list}
+
+	# Get the category list and display on page for sidebar
+	cat_list = get_category_list()
+	context_dict['cat_list'] = cat_list
 
 	return render_to_response('rango/shows_list.html', context_dict, context)
 
-def category(request, category_name_url):
+def show(request, show_name_url):
 	# Request our context from the request passed to us.
 	context = RequestContext(request)
 
-	category_name = decode_url(category_name_url)
+	show_name = decode_url(show_name_url)
 
-	cat_list = get_category_list()
-
-	# Create a context dictionary which we can pass to the template rendering engine.
-	# We start by containing the name of the category passed by the user.
-	context_dict = {'category_name': category_name}
-
-	context_dict['cat_list'] = cat_list
-	context_dict['category_name_url'] = category_name_url
+	context_dict = {'show_name': show_name}
+	context_dict['show_name_url'] = show_name_url
 
 	try:
 		# Find the category with the given name.
 		# Raises an exception if the category doesn't exist.
 		# We also do a case insensitive match.
-		category = Category.objects.get(name=category_name)
-		context_dict['category'] = category
-		# Retrieve all the associated pages.
-		# Note that filter returns >= 1 model instance.
-		pages = Page.objects.filter(category=category).order_by('-views')
-		context_dict['pages'] = pages
-	except Category.DoesNotExist:
+		show = TvShows.objects.get(show_name=show_name)
+		context_dict['show'] = show
+		context_dict['number_added'] = len(show.users)
+	except TvShows.DoesNotExist:
 		# We get here if the category does not exist.
 		# Will trigger the template to display the 'no category' message.
 		pass
 
 	# Go render the response and return it to the client.
-	return render_to_response('rango/category.html', context_dict, context)
+	return render_to_response('rango/show.html', context_dict, context)
 
 def register(request):
 	context = RequestContext(request)
@@ -241,8 +239,23 @@ def user_login(request):
 #login_required() decorator ensures only logged in users can access the view
 
 @login_required
-def restricted(request):
-	return HttpResponse("Since you're logged in, you can see this text!")
+def my_list(request):
+	context = RequestContext(request)
+
+	cat_list = get_category_list()
+	context_dict = {'cat_list': cat_list}
+
+	u = User.objects.get(username=request.user)
+
+	try:
+		up = UserProfile.objects.get(user=u)
+	except:
+		up = None
+
+	show_list = up.show_list
+	context_dict['show_list': show_list]
+
+	return render_to_response('rango/my_list.html', context_dict, context)
 
 @login_required
 def user_logout(request):

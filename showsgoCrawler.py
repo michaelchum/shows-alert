@@ -63,7 +63,7 @@ def getLatestEpisodes(listOfShows):
 							#print type(TvShows.objects.filter(show_name=show))
 							p = TvShows.objects.get(show_name=show)
 						if (Episode.objects.filter(show_link=stream).count() < 1):
-							a = Episode(episode=p, show_link=stream, season_episode=title)
+							a = Episode(show=p, show_link=stream, season_episode=title)
 							a.save()
 
 						
@@ -85,9 +85,9 @@ for i in Episode.objects.all():
 	# print i.getShowLink()
 	# print i.getSeasonAndEpisode()
 	if i.sent == False:
-		to = i.episode.getUsers()
+		to = i.show.getUsers()
 		s = 'Here is link to the latest episode of ' + i.getSeasonAndEpisode() +' : \n' + i.getShowLink()
-		send_email(to, i.getSeasonAndEpisode() , s)
+		send_email(to, 'Shows Alert Update', s)
 		i.sent = True
 		i.save()
 

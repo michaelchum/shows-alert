@@ -1,0 +1,38 @@
+{% extends "rango/base.html" %}
+
+{% block title %}Shows{% endblock %}
+
+{% block body_block %}
+
+<div class="hero-unit">
+    <h1>Shows</h1>
+
+</br>
+
+    <div id="pages">
+    {% if shows %}
+    <ol>
+        {% for show in shows %}
+        <li>
+            <strong>
+            <button data-catid="{{category.id}}" data-title="{{ result.title }}" data-url="{{ result.link }}" class="rango-add btn btn-mini btn-info" type="button">Add</button>
+            <a href="/rango/shows/{{show_link}}">{{show.show_name}}</a>
+            {% if shows.likes > 1 %}
+                - ({{ show.likes }} likes)
+            {% elif show.likes == 1 %}
+                - ({{ show.likes }} views)
+            {% endif %}
+            </strong>
+        </li>
+        {% endfor %}
+    </ol>
+    {% else %}
+    <strong>No shows currently in category.</strong><br/>
+    {% endif %}
+
+    </div>
+
+</div>
+
+
+{% endblock %}

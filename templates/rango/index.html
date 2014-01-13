@@ -3,31 +3,31 @@
 {% block body_block %}
 
 <div class="hero-unit">
-    <h1>Ready to Rango</h1>
-    <p>Find, Add, Share and Rango useful links and resources.</p>
+    <h1>Ready for update</h1>
+    <p>Find, Add, and Get live updates of the latest episodes.</p>
 </div>
 
 <div class="row-fluid">
     <div class="span6">
-        <h2>Top Five Categories</h2>
+        <h2>Top Five Shows</h2>
         {% if categories %}
         <ul>
             {% for category in categories %}
-            <li><a href="/rango/category/{{ category.url }}">{{ category.name }}</a></li>
+            <li><strong><a href="/rango/category/{{ category.url }}">{{ category.show_name }}</a></strong></li>
             {% endfor %}
         </ul>
         {% else %}
-        <strong>No categories at present.</strong>
+        <strong>No shows are present.</strong>
         {% endif %}
 
     </div>
-    <!--/span-->
+    
     <div class="span6">
-        <h2>Top Five Pages</h2>
+        <h2>Top Five Episodes</h2>
         {% if pages %}
         <ul>
             {% for page in pages %}
-            <li><a href="{{ page.url}}">{{ page.title }}</a> - {{ page.category }} ({{ page.views }} view(s))</li>
+            <li><strong><a href="{{ page.url}}">{{ page.show_name }}</a> - {{ page.show_name }} ({{ page.likes }} like(s))</strong></li>
             {% endfor %}
         </ul>
         {% else %}
@@ -35,7 +35,7 @@
         {% endif %}
 
     </div>
-    <!--/span-->
+
 </div>
 <!--/row-->
 

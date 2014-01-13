@@ -9,7 +9,7 @@
         <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
         <link href="{% static 'css/bootstrap-responsive.css' %}" rel="stylesheet">
 
-        <title>Rango - {% block title %}How to Tango with Django!{% endblock %}</title>
+        <title>Shows Alert - {% block title %}Get live updates for your favorite shows!{% endblock %}</title>
     </head>
 
     <body>
@@ -21,7 +21,7 @@
                        <span class="icon-bar"></span>
                        <span class="icon-bar"></span>
                     </button>
-                    <a class="brand" href="/rango/">Rango</a>
+                    <a class="brand" href="/rango/">Shows Alert</a>
 
                    <div class="nav-collapse collapse">
                        <ul class="nav pull-right">
@@ -35,8 +35,10 @@
                        </ul>
                        <ul class="nav">
                            {% if user.is_authenticated %}
-                            <li><a href="/rango/restricted/">Restricted</a></li>
-                            <li><a href="/rango/add_category/">Add Category</a></li>
+                            <li><a href="/rango/shows_list/">All shows</a></li>
+                            <li><a href="/rango/my_list/">My list</a></li>
+                            {% else %}
+                            <li><a href="/rango/shows_list/">All shows</a></li>
                            {% endif %}
                              <li><a href="/rango/about/">About</a></li>
                        </ul>
@@ -53,7 +55,7 @@
                        {% block sidebar %}
                        {% endblock %}
         <ul class="nav nav-list">
-                <li class="nav-header">Find a Category</li>
+                <li class="nav-header">Find a show</li>
                 <form>
                 <label></label>
                 <li><input  class="search-query span10" type="text" name="suggestion" value="" id="suggestion" /></li>
@@ -82,7 +84,7 @@
 
         <footer>
             <div class="container">
-                <p>&copy; Rango: How to Tango with Django 2013</p>
+                <p>&copy; Shows Alert: Get the latest shows 2014</p>
             </div>
         </footer>
 

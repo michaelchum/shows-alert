@@ -13,7 +13,7 @@ class TvShows(models.Model):
 	users = models.ManyToManyField(User, blank=True)
 	
 	def __unicode__(self):
-		return '%s %s' % (self.show_name, self.picture_link)
+		return self.show_name
 
 	def getShowName(self):
 		return self.show_name
@@ -29,7 +29,7 @@ class Episode(models.Model):
 	creation_date = models.DateTimeField(auto_now_add = True, editable=False)
 
 	def __unicode__(self):
-		return '%s %s %s' % (self.season_episode, self.show_link, self.sent)
+		return self.season_episode
 
 	def getShowLink(self):
 		return self.show_link

@@ -16,8 +16,8 @@
             <strong>
             <button data-catid="{{category.id}}" data-title="{{ result.title }}" data-url="{{ result.link }}" class="rango-add btn btn-mini btn-info" type="button">Remove</button>
             <a href="/rango/show/{{ show.url}}">{{show.show_name}}</a>
-            {% if show.likes > 1 %}
-                - ({{ show.likes }} likes)
+            {% if show.added > 1 %}
+                - ({{ show.added }} followers)
             {% endif %}
             </strong>
         </li>

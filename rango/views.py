@@ -81,8 +81,8 @@ def index(request):
 	# Order the categories by no. likes in descending order
 	# Retrieve the top 5 only - or all if less than 5.
 	# Place the list in our context_dict dictionary which will be passed to the template engine
-	show_list = TvShows.objects.order_by('-likes')[:5]
-	episodes = Episode.objects.order_by('-creation_date')[:5]
+	show_list = TvShows.objects.order_by('-likes')[:10]
+	episodes = Episode.objects.order_by('-creation_date')[:10]
 	encodeURL(show_list)
 	context_dict = {'show_list': show_list, 'episodes': episodes}
 
@@ -252,8 +252,9 @@ def my_list(request):
 	except:
 		up = None
 
-	show_list = up.show_list
-	context_dict['show_list': show_list]
+	if up:
+		show_list = up.show_list
+		context_dict['show_list': show_list]
 
 	return render_to_response('rango/my_list.html', context_dict, context)
 

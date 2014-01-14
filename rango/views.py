@@ -46,7 +46,7 @@ def get_category_list():
 def get_category_list(max_results=0, starts_with=''):
 	cat_list = []
 	if starts_with:
-		cat_list = TvShows.objects.filter(name__startswith=starts_with)
+		cat_list = TvShows.objects.filter(show_name__startswith=starts_with)
 	else:
 		cat_list = TvShows.objects.all()
 
@@ -55,7 +55,7 @@ def get_category_list(max_results=0, starts_with=''):
 			cat_list = cat_list[:max_results]
 
 	for cat in cat_list:
-		cat.added = cat.users.count()
+		#cat.added = cat.users.count()
 		cat.url = encode_url(cat.show_name)
 
 	return cat_list

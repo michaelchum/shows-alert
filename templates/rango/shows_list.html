@@ -11,21 +11,22 @@
 
     <div id="pages">
     {% if show_list %}
+
     <ol>
         {% for show in show_list %}
         <li>
-            <strong>
-            <button data-catid="{{category.id}}" data-title="{{ result.title }}" data-url="{{ result.link }}" class="rango-add btn btn-mini btn-info" type="button">Add</button>
+            <strong id="added_count">
+            <button id ="add" data-showid="{{show.id}}" class="btn btn-info btn-small"><i class="icon-white icon-thumbs-up"></i> Follow</button>
             <a href="/rango/show/{{ show.url}}">{{show.show_name}}</a>
-            {% if show.likes > 1 %}
-                - ({{ show.likes }} likes)
+            {% if show.added > 1 %}
+                - ({{ show.added }} followers)
             {% endif %}
             </strong>
         </li>
         {% endfor %}
     </ol>
     {% else %}
-    <strong>No shows currently in category.</strong><br/>
+    <strong>Sorry, no shows are currently available in our database.</strong><br/>
     {% endif %}
 
     </div>

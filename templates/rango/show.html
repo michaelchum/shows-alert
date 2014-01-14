@@ -3,8 +3,9 @@
 {% block title %}{{ show_name }}{% endblock %}
 
 {% block body_block %}
-    <h1>{{ show_name }}</h1>
 
+    <div class="hero-unit">
+        <h2>{{ show_name }}</h2>
     <div>
         <p>
 
@@ -12,17 +13,18 @@
                 <button id ="likes" data-catid="{{category.id}}" class="btn btn-mini btn-primary" type="button">Add</button>
         {% endif %}
 
-        <b id="like_count">{{ number_added }}</b> user(s) added this show
+        <b id="like_count">{{ number_added }}</b> user(s) is following this show
 
         </p>
     </div>
+    <br>
 
     {% if show.picture_link %}
-
         <img class="featurette-image img-responsive" src="{{ show.picture_link }}">
-
     {% else %}
         <strong>No picture for this show.</strong>
     {% endif %}
+
+    </div>
 
 {% endblock %}

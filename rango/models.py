@@ -6,11 +6,11 @@ class TvShows(models.Model):
 	url = models.URLField(max_length=300, blank=True)
 	picture_link = models.URLField(max_length=300, blank=True)
 	likes = models.IntegerField(default=5)
-	added = models.IntegerField(default=5)
+	added = models.IntegerField(default=2)
 	# season_episode = models.CharField(max_length=300)
-	users = ['uehtesham90@gmail.com']
+	#users = ['uehtesham90@gmail.com']
 	#name_list = models.ManyToManyField(User)
-	#users = models.ManyToManyField(User, blank=True)
+	users = models.ManyToManyField(User, blank=True)
 	
 	def __unicode__(self):
 		return '%s %s' % (self.show_name, self.picture_link)
@@ -41,7 +41,8 @@ class Episode(models.Model):
 class UserProfile(models.Model):
 	user = models.OneToOneField(User)
 	show_list = models.ManyToManyField('TvShows')
-	#latest_link = models.URLField(max_length=300)
+	email_notification = models.BooleanField(default=True)
+	sms_notification = models.BooleanField(default=True)
 
 	#def getLatestLink(self):
 	#	return self.latest_link

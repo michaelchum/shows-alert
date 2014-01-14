@@ -55,6 +55,7 @@ def get_category_list(max_results=0, starts_with=''):
 			cat_list = cat_list[:max_results]
 
 	for cat in cat_list:
+		cat.added = len(cat.users)
 		cat.url = encode_url(cat.show_name)
 
 	return cat_list
@@ -132,7 +133,9 @@ def show(request, show_name_url):
 		# We also do a case insensitive match.
 		show = TvShows.objects.get(show_name=show_name)
 		context_dict['show'] = show
+		show.added = len(show.users)
 		context_dict['number_added'] = len(show.users)
+		show.save
 	except TvShows.DoesNotExist:
 		# We get here if the category does not exist.
 		# Will trigger the template to display the 'no category' message.
@@ -265,6 +268,23 @@ def user_logout(request):
 
 	# Take the user back to the homepage.
 	return HttpResponseRedirect('/rango/')
+
+@login_required
+def add_show(request):
+	context = RequestContext(request)
+	show_id = None
+	if request.method == 'GET':
+		show_id = request.GET['show_id']
+
+	added = 0
+	if show_id:
+		show = TvShows.objects.get(id=int(show_id))
+		if show:
+			added = TvShows.added + 1
+			show.added =  added
+			show.save()
+
+	return HttpResponse(added)
 
 @login_required
 def like_category(request):

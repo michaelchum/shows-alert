@@ -8,28 +8,29 @@
     <h1>Shows</h1>
 </br>
 
-    <div id="pages">
-    {% if show_list %}
-    <ol>
-        {% for show in show_list %}
-        <li>
-            <strong>
-            <button data-catid="{{category.id}}" data-title="{{ result.title }}" data-url="{{ result.link }}" class="rango-add btn btn-mini btn-info" type="button">Remove</button>
-            <a href="/rango/show/{{ show.url}}">{{show.show_name}}</a>
-            {% if show.added > 1 %}
-                - ({{ show.added }} followers)
-            {% endif %}
-            </strong>
-        </li>
-        {% endfor %}
-    </ol>
-    {% else %}
-    <strong>You currently don't follow any shows! Select some <a href="/rango/shows_list">awesome shows</a> and start following!</strong><br/>
-    {% endif %}
-
+    <div id="list">
+        {% if user_show_list %}
+        <ol>
+            {% for show in user_show_list %}
+            <li>
+                <strong>
+                <button data-catid="{{category.id}}" data-title="{{ result.title }}" data-url="{{ result.link }}" class="rango-add btn btn-mini btn-info" type="button">Remove</button>
+                <a href="/rango/show/{{ show.url}}">{{show.show_name}}</a>
+                {% if show.added > 1 %}
+                    - ({{ show.added }} followers)
+                {% endif %}
+                </strong>
+            </li>
+            {% endfor %}
+        </ol>
+        {% else %}
+        <strong>
+            You currently don't follow any shows! Select some <a href="/rango/shows_list">awesome shows</a> and start following!
+        </strong>
+        <br/>
+        {% endif %}
     </div>
 
 </div>
-
 
 {% endblock %}

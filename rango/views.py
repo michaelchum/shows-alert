@@ -112,6 +112,16 @@ def shows_list(request):
 
 	context_dict = {'show_list': show_list}
 
+	try:
+		up = UserProfile.objects.get(user=request.user)
+		context_dict['up'] = up
+	except:
+		up = None
+
+	if up:
+		user_show_list = up.show_list.all()
+		context_dict['user_show_list'] = user_show_list
+
 	# Get the category list and display on page for sidebar
 	cat_list = get_category_list()
 	context_dict['cat_list'] = cat_list
@@ -255,8 +265,8 @@ def my_list(request):
 	up = UserProfile.objects.get(user=request.user)
 
 	if up:
-		show_list = up.show_list.all()
-		context_dict['show_list'] = show_list
+		user_show_list = up.show_list.all()
+		context_dict['user_show_list'] = user_show_list
 
 	return render_to_response('rango/my_list.html', context_dict, context)
 

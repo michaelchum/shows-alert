@@ -2,13 +2,15 @@ $(document).ready(function() {
 
 	// JQuery Code
 
-	$('#add').click(function(){
+	$('.rango-add').click(function(){
 		var showid;
 		showid = $(this).attr("data-showid");
 		$.get('/rango/add_show/', {show_id: showid}, function(data){
-			$('#added_count').html(data);
-			$('#add').hide();
+			$('#list').html(data);
+			//$('#add').hide();
 		});
 	});
 
 });
+
+// <button id ="add" data-showid="{{ show.id }}" class="btn btn-primary btn-small"><i class="icon-white icon-thumbs-up"></i> Follow</button>

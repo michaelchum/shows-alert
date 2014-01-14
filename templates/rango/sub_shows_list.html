@@ -1,0 +1,20 @@
+{% if up %}
+    <ol>
+        {% for show in show_list %}
+        <li>
+            <strong>
+            {% if show not in user_show_list %}
+                <button data-showid="{{ show.id }}" class="rango-add btn btn-primary btn-small"><i class="icon-white icon-thumbs-up"></i> Follow</button>
+            {% else %}
+                <button class="btn btn-success btn-small"><i class="icon-white icon-ok"></i> Following</button>
+            {% endif %}
+                <a href="/rango/show/{{ show.url }}">{{show.show_name}}</a>
+            {% if show.added > 1 %}
+                - ({{ show.added }} followers)
+            {% endif %}
+            </strong>
+        </li>
+        {% endfor %}
+    </ol>
+<br/>
+{% endif %}

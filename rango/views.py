@@ -6,7 +6,7 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response
 from rango.forms import UserForm, UserProfileForm
 
-from rango.models import TvShows, Episode
+from rango.models import TvShows, Episode, UserProfile
 from django.contrib.auth.models import User
 
 # Import stuff for authentication (login)
@@ -55,7 +55,7 @@ def get_category_list(max_results=0, starts_with=''):
 			cat_list = cat_list[:max_results]
 
 	for cat in cat_list:
-		cat.added = len(cat.users)
+		cat.added = cat.users.count()
 		cat.url = encode_url(cat.show_name)
 
 	return cat_list
@@ -133,13 +133,17 @@ def show(request, show_name_url):
 		# We also do a case insensitive match.
 		show = TvShows.objects.get(show_name=show_name)
 		context_dict['show'] = show
-		show.added = len(show.users)
-		context_dict['number_added'] = len(show.users)
+		show.added = show.users.count()
+		context_dict['number_added'] = show.added
 		show.save
 	except TvShows.DoesNotExist:
 		# We get here if the category does not exist.
 		# Will trigger the template to display the 'no category' message.
 		pass
+
+	# Get the category list and display on page for sidebar
+	cat_list = get_category_list()
+	context_dict['cat_list'] = cat_list
 
 	# Go render the response and return it to the client.
 	return render_to_response('rango/show.html', context_dict, context)
@@ -247,17 +251,12 @@ def my_list(request):
 
 	cat_list = get_category_list()
 	context_dict = {'cat_list': cat_list}
-
-	u = User.objects.get(username=request.user)
-
-	try:
-		up = UserProfile.objects.get(user=u)
-	except:
-		up = None
+	
+	up = UserProfile.objects.get(user=request.user)
 
 	if up:
-		show_list = up.show_list
-		context_dict['show_list': show_list]
+		show_list = up.show_list.all()
+		context_dict['show_list'] = show_list
 
 	return render_to_response('rango/my_list.html', context_dict, context)
 
@@ -276,12 +275,17 @@ def add_show(request):
 	if request.method == 'GET':
 		show_id = request.GET['show_id']
 
+	u = User.objects.get(username=request.user)
+	up = UserProfile.objects.get(user=u)
+
 	added = 0
 	if show_id:
 		show = TvShows.objects.get(id=int(show_id))
 		if show:
-			added = TvShows.added + 1
+			added = show.added + 1
 			show.added =  added
+			show.users.add(u)
+			up.show_list.add(show)
 			show.save()
 
 	return HttpResponse(added)

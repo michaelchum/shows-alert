@@ -48,11 +48,6 @@ def getLatestEpisodes():
 				image = url.a.find('img')['src']
 			
 			for url in links.find_all('div', {'class' : 'postcontent'}):
-<<<<<<< HEAD
-				show = url.a.get('title').split('Full Episodes')[0]
-=======
-				show = url.a.get('title').split(' Full Episodes')[0]
->>>>>>> 28c67df61b0d09a43ec839b3403e7e355ef5f291
 			
 			if title is not None:
 				p = None
@@ -98,12 +93,12 @@ else:
 
 for show in TvShows.objects.all():
 	show.users.add(a)
-	b = UserProfile.objects.filter(user=a)[0]
+	b = UserProfile.objects.get(user=a)
 	b.show_list.add(show)
 	show.users.add(c)
-	d = UserProfile.objects.filter(user=c)[0]
+	d = UserProfile.objects.get(user=c)
 	d.show_list.add(show)
->>>>>>> 28c67df61b0d09a43ec839b3403e7e355ef5f291
+
 
 print len(TvShows.objects.all())
 
@@ -111,19 +106,14 @@ print len(Episode.objects.all())
 
 for i in Episode.objects.all():
 	if i.sent == False:
-<<<<<<< HEAD
-		to = i.show.getUsers()
-		s = 'Here is link to the latest episode of ' + i.getSeasonAndEpisode() +' : \n' + i.getShowLink()
-		send_email(to,'Shows Alert Update', s)
-		i.sent = True
-		i.save()
-=======
 		for u in i.show.users.all(): # Loop through all the users and use their emails
-			p = UserProfile.objects.filter(user=u)[0]
-			if p.email_notification: # Check if email_notification is activated
+			p = UserProfile.objects.get(user=u) # Get corresponding UserProfile 
+			if p.email_notification: # EMAIL
 				to = u.email
 				s = 'Here is link to the latest episode of ' + i.getSeasonAndEpisode() +' : \n' + i.getShowLink()
 				send_email(to,'Shows Alert Update', s)
 				i.sent = True
 				i.save()
->>>>>>> 28c67df61b0d09a43ec839b3403e7e355ef5f291
+			if p.sms_notification: # SMS
+				a = 0
+

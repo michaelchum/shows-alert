@@ -11,6 +11,18 @@ $(document).ready(function() {
 		});
 	});
 
+<<<<<<< HEAD
 });
 
 // <button id ="add" data-showid="{{ show.id }}" class="btn btn-primary btn-small"><i class="icon-white icon-thumbs-up"></i> Follow</button>
+=======
+	$('#suggestion').keyup(function(){
+        var query;
+        query = $(this).val();
+        $.get('/rango/suggest_category/', {suggestion: query}, function(data){
+         $('#cats').html(data);
+        });
+});
+
+});
+>>>>>>> FETCH_HEAD

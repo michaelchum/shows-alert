@@ -49,7 +49,7 @@ def getLatestEpisodes():
 			
 			for url in links.find_all('div', {'class' : 'postcontent'}):
 				show = url.a.get('title').split(' Full Episodes')[0]
-			
+							
 			if title is not None:
 				p = None
 				if (TvShows.objects.filter(show_name=show).count() < 1):
@@ -57,6 +57,7 @@ def getLatestEpisodes():
 					p.save()	
 				else:
 					p = TvShows.objects.get(show_name=show)											
+
 
 				if (Episode.objects.filter(show_link=stream).count() < 1):
 				 		a = Episode(show=p, show_link=stream, season_episode=title)
@@ -92,6 +93,7 @@ for show in TvShows.objects.all():
 	d = UserProfile.objects.get(user=c)
 	d.show_list.add(show)
 
+
 print len(TvShows.objects.all())
 
 print len(Episode.objects.all())
@@ -108,3 +110,4 @@ for i in Episode.objects.all():
 				i.save()
 			if p.sms_notification: # SMS
 				a = 0
+

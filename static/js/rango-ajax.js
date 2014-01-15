@@ -1,10 +1,12 @@
 $(document).ready(function() {
 
+
         $('.rango-add').click(function(){
                 var showid;
                 showid = $(this).attr("data-showid");
                  $.get('/rango/add_show/', {show_id: showid}, function(data){
                            $('#list').html(data);
+                           initBinding();
                        });
             });
 
@@ -18,3 +20,15 @@ $(document).ready(function() {
         });
 
 });
+
+function initBinding() 
+{ 
+        $('.rango-add').click(function(){
+                var showid;
+                showid = $(this).attr("data-showid");
+                 $.get('/rango/add_show/', {show_id: showid}, function(data){
+                           $('#list').html(data);
+                           initBinding()
+                       });
+            });
+}

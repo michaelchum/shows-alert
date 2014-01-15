@@ -1,0 +1,8 @@
+
+{% if show in user_show_list %}
+    <button class="remove_from_show btn btn-success btn-small" data-showid="{{ show.id }}"><i class="icon-black icon-ok"></i> Following</button>
+{% else %}
+    <button class="add_from_show btn btn-primary btn-small" data-showid="{{ show.id }}"><i class="icon-white icon-thumbs-up"></i> Follow</button>
+{% endif %}
+
+<b>{{ number_added }}</b> user(s) is following this show

@@ -88,7 +88,7 @@ def index(request):
 	context_dict = {'show_list': show_list, 'episodes': episodes}
 
 	# Get the category list and display on page for sidebar
-	cat_list = get_category_list()
+	cat_list = get_category_list(20, '')
 	context_dict['cat_list'] = cat_list
 
 	# Return a rendered response to send to the client.
@@ -102,7 +102,7 @@ def about(request):
 	context_dict = {'boldmessage': "Rango says: Here is the about page."}
 
 	# Get the category list and display on page for sidebar
-	cat_list = get_category_list()
+	cat_list = get_category_list(20, '')
 	context_dict['cat_list'] = cat_list
 	return render_to_response('rango/about.html', context_dict, context)
 
@@ -123,7 +123,7 @@ def shows_list(request):
 		context_dict['user_show_list'] = user_show_list
 
 	# Get the category list and display on page for sidebar
-	cat_list = get_category_list()
+	cat_list = get_category_list(20, '')
 	context_dict['cat_list'] = cat_list
 
 	return render_to_response('rango/shows_list.html', context_dict, context)
@@ -152,7 +152,7 @@ def show(request, show_name_url):
 		pass
 
 	# Get the category list and display on page for sidebar
-	cat_list = get_category_list()
+	cat_list = get_category_list(20, '')
 	context_dict['cat_list'] = cat_list
 
 	# Go render the response and return it to the client.
@@ -259,7 +259,7 @@ def user_login(request):
 def my_list(request):
 	context = RequestContext(request)
 
-	cat_list = get_category_list()
+	cat_list = get_category_list(20, '')
 	context_dict = {'cat_list': cat_list}
 	
 	up = UserProfile.objects.get(user=request.user)
@@ -299,7 +299,7 @@ def add_show(request):
 			show.save()
 			up.save()
 
-	cat_list = get_category_list()
+	cat_list = get_category_list(20, '')
 	context_dict = {'cat_list': cat_list}
 
 	show_list = get_category_list()
@@ -330,7 +330,7 @@ def remove_show(request):
 			show.save()
 			up.save()
 
-	cat_list = get_category_list()
+	cat_list = get_category_list(20, '')
 	context_dict = {'cat_list': cat_list}
 
 	show_list = get_category_list()
@@ -361,7 +361,7 @@ def remove_show2(request):
 			show.save()
 			up.save()
 
-	cat_list = get_category_list()
+	cat_list = get_category_list(20, '')
 	context_dict = {'cat_list': cat_list}
 
 	show_list = get_category_list()
@@ -370,6 +370,72 @@ def remove_show2(request):
 	context_dict['up'] = up
 	
 	return render_to_response('rango/sub_my_list.html', context_dict, context)
+
+@login_required
+def remove_from_show(request):
+	context = RequestContext(request)
+	show_id = None
+
+	if request.method == 'GET':
+		show_id = request.GET['show_id']
+
+	up = UserProfile.objects.get(user=request.user)
+
+	added = 0
+	if show_id:
+		show = TvShows.objects.get(id=int(show_id))
+		if show:
+			added = show.added - 1
+			show.added =  added
+			show.users.remove(request.user)
+			up.show_list.remove(show)
+			show.save()
+			up.save()
+
+	cat_list = get_category_list(20, '')
+	context_dict = {'cat_list': cat_list}
+	context_dict['show'] = show #important
+
+	show_list = get_category_list()
+	context_dict['show_list'] = show_list
+	context_dict['user_show_list'] = up.show_list.all()
+	context_dict['up'] = up
+	context_dict['number_added'] = show.added
+	
+	return render_to_response('rango/sub_show.html', context_dict, context)
+
+@login_required
+def add_from_show(request):
+	context = RequestContext(request)
+	show_id = None
+
+	if request.method == 'GET':
+		show_id = request.GET['show_id']
+
+	up = UserProfile.objects.get(user=request.user)
+
+	added = 0
+	if show_id:
+		show = TvShows.objects.get(id=int(show_id))
+		if show:
+			added = show.added + 1
+			show.added =  added
+			show.users.add(request.user)
+			up.show_list.add(show)
+			show.save()
+			up.save()
+
+	cat_list = get_category_list(20, '')
+	context_dict = {'cat_list': cat_list}
+	context_dict['show'] = show #important
+
+	show_list = get_category_list()
+	context_dict['show_list'] = show_list
+	context_dict['user_show_list'] = up.show_list.all()
+	context_dict['up'] = up
+	context_dict['number_added'] = show.added
+	
+	return render_to_response('rango/sub_show.html', context_dict, context)
 
 @login_required
 def like_category(request):

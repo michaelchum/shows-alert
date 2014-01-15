@@ -54,6 +54,7 @@ function initBinding()
                 	initBinding() 
                 });
         });
+    /*
     $('.remove_show').hover(function () {
         $(this).removeClass('btn-success');
         $(this).addClass('btn-warning');
@@ -66,5 +67,22 @@ function initBinding()
         $('i', this).addClass('icon-ok');
         initBinding();
     });
+    */
+            $('.remove_from_show').click(function(){
+                var showid;
+                showid = $(this).attr("data-showid");
+                 $.get('/rango/remove_from_show/', {show_id: showid}, function(data){
+                           $('#list').html(data);
+                           initBinding() 
+                       });
+            });
+            $('.add_from_show').click(function(){
+                var showid;
+                showid = $(this).attr("data-showid");
+                 $.get('/rango/add_from_show/', {show_id: showid}, function(data){
+                           $('#list').html(data);
+                           initBinding() 
+                       });
+            });
 }
 

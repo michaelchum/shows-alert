@@ -4,7 +4,7 @@
                 <li>
                     <strong>
                     {% if show in user_show_list %}
-                        <button class="following btn btn-success btn-small" data-showid="{{ show.id }}"><i class="following-icon icon-black icon-ok"></i> Following</button>
+                        <button class="remove_show btn btn-success btn-small" data-showid="{{ show.id }}"><i class="icon-black icon-ok"></i> Following</button>
                     {% else %}
                         <button class="rango-add btn btn-primary btn-small" data-showid="{{ show.id }}"><i class="icon-white icon-thumbs-up"></i> Follow</button>
                     {% endif %}

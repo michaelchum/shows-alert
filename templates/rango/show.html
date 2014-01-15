@@ -11,20 +11,20 @@
 
         {% if user.is_authenticated %}
             {% if show in user_show_list %}
-                <button class="remove_from_show following btn btn-success btn-small" data-showid="{{ show.id }}"><i class="icon-black icon-ok"></i> Following</button>
+                <button class="remove_from_show btn btn-success btn-small" data-showid="{{ show.id }}"><i class="icon-black icon-ok"></i> Following</button>
             {% else %}
                 <button class="add_from_show btn btn-primary btn-small" data-showid="{{ show.id }}"><i class="icon-white icon-thumbs-up"></i> Follow</button>
             {% endif %}
         {% endif %}
 
-        <b id="like_count">{{ number_added }}</b> user(s) is following this show
+        <b>{{ number_added }}</b> user(s) is following this show
 
         </p>
     </div>
     <br>
 
     {% if show.picture_link %}
-        <img class="featurette-image img-responsive" src="{{ show.picture_link }}">
+        <a href="{{ latest_link }}"><img class="featurette-image img-responsive" src="{{ show.picture_link }}"></a>
     {% else %}
         <strong>No picture for this show.</strong>
     {% endif %}

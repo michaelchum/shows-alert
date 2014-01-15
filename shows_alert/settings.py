@@ -170,5 +170,5 @@ LOGGING = {
 }
 
 #CRONJOBS = [
-#   ('*/2 * * * *', 'shows-alert.showsgoCrawler.my_scheduled_job')
+ #   ('*/2 * * * *', 'shows-alert.showsgoCrawler.my_scheduled_job')
 #]

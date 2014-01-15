@@ -43,6 +43,7 @@ class UserProfile(models.Model):
 	show_list = models.ManyToManyField('TvShows')
 	email_notification = models.BooleanField(default=True)
 	sms_notification = models.BooleanField(default=True)
+	newuser = models.BooleanField(default=True)
 
 	#def getLatestLink(self):
 	#	return self.latest_link

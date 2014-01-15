@@ -32,9 +32,7 @@ def getLatestEpisodes():
 		showsgoFile = urllib2.urlopen(text)
 		showsgoHtml = showsgoFile.read()
 		showsgoHtmls.append(showsgoHtml)
-		showsgoFile.close()	
-
-	# soup = BeautifulSoup(showsgoHtml)
+		showsgoFile.close()
 
 	for page in showsgoHtmls:
 		soup = BeautifulSoup(page)
@@ -74,30 +72,44 @@ if authenticate(username='usman', password='usman')==None:
 	a = User.objects.create_user(username='usman', password='usman', email='uehtesham90@gmail.com')
 	a.save()
 	b = UserProfile(user_id=a.id)
+	b.newuser = False
 	b.save()
 else:
 	a = authenticate(username='usman', password='usman')
 
-if authenticate(username='michael', password='michael')==None:
-	c = User.objects.create_user(username='michael', password='michael', email='mickeyho92@gmail.com', last_name='15146210791')
-	d = UserProfile(user_id=c.id)
-	c.save()
-	d.save()
-else:
-	c = authenticate(username='michael', password='michael')
+# if authenticate(username='michael', password='michael')==None:
+# 	c = User.objects.create_user(username='michael', password='michael', email='mickeyho92@gmail.com', last_name='15146210791')
+# 	d = UserProfile(user_id=c.id)
+# 	d.newuser = False
+# 	c.save()
+# 	d.save()
+# else:
+# 	c = authenticate(username='michael', password='michael')
 
 for show in TvShows.objects.all():
 	show.users.add(a)
 	b = UserProfile.objects.get(user=a)
 	b.show_list.add(show)
-	show.users.add(c)
-	d = UserProfile.objects.get(user=c)
-	d.show_list.add(show)
+	# show.users.add(c)
+	# d = UserProfile.objects.get(user=c)
+	# d.show_list.add(show)
 
 
 print len(TvShows.objects.all())
 
 print len(Episode.objects.all())
+
+for u in UserProfile.objects.all():
+	if u.newuser:
+		for show in u.show_list.all():
+			latest_episode = Episode.objects.filter(show=show).order_by('-creation_date')[:1]
+			latest_episode = latest_episode[0]
+			if u.email_notification: # EMAIL
+				to = u.user.email
+				s = 'Here is link to the latest episode of ' + latest_episode.getSeasonAndEpisode() +' : \n' + latest_episode.getShowLink()
+				send_email(to,'Shows Alert Update', s)
+		u.newuser = False
+		u.save()
 
 for i in Episode.objects.all():
 	if i.sent == False:
@@ -111,5 +123,6 @@ for i in Episode.objects.all():
 				i.save()
 			if p.sms_notification: # SMS
 				a = 0
+
 
 

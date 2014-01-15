@@ -146,6 +146,10 @@ def show(request, show_name_url):
 		show.added = show.users.count()
 		context_dict['number_added'] = show.added
 		show.save
+		latest_link = Episode.objects.filter(show=show).order_by('-creation_date')[:1]
+		latest_link = latest_link[0]
+		latest_link = latest_link.show_link
+		context_dict['latest_link'] = latest_link
 	except TvShows.DoesNotExist:
 		# We get here if the category does not exist.
 		# Will trigger the template to display the 'no category' message.
@@ -191,6 +195,7 @@ def register(request):
 				profile.picture = request.FILES['picture']
 
 			# Now we save the UserProfile model instance.
+			profile.newuser = True
 			profile.save()
 
 			# Update our variable to tell the template registration was successful.

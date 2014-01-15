@@ -17,9 +17,9 @@
                 <li>
                     <strong>
                     {% if show in user_show_list %}
-                        <button class="btn btn-success btn-small"><i class="icon-white icon-ok"></i> Following</button>
+                        <button class="remove_show following btn btn-success btn-small" data-showid="{{ show.id }}"><i class="following-icon icon-black icon-ok"></i> Following</button>
                     {% else %}
-                        <button data-showid="{{ show.id }}" class="rango-add btn btn-primary btn-small"><i class="icon-white icon-thumbs-up"></i> Follow</button>
+                        <button class="rango-add btn btn-primary btn-small" data-showid="{{ show.id }}"><i class="icon-white icon-thumbs-up"></i> Follow</button>
                     {% endif %}
                         <a href="/rango/show/{{ show.url }}">{{show.show_name}}</a>
                     {% if show.added > 1 %}

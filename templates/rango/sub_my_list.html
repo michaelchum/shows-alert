@@ -1,15 +1,4 @@
-{% extends "rango/base.html" %}
-
-{% block title %}My Added Shows{% endblock %}
-
-{% block body_block %}
-
-<div class="hero-unit">
-    <h1>Shows</h1>
-</br>
-
-    <div id="list">
-        {% if user_show_list %}
+{% if user_show_list %}
         <ol>
             {% for show in user_show_list %}
             <li>
@@ -29,8 +18,3 @@
         </strong>
         <br/>
         {% endif %}
-    </div>
-
-</div>
-
-{% endblock %}

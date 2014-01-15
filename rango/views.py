@@ -69,7 +69,7 @@ def suggest_category(request):
 	else:
 		starts_with = request.POST['suggestion']
 
-	cat_list = get_category_list(TvShows.objects.count(), starts_with)
+	cat_list = get_category_list(20, starts_with)
 
 	return render_to_response('rango/category_list.html', {'cat_list': cat_list }, context)
 	
@@ -309,6 +309,67 @@ def add_show(request):
 	
 	return render_to_response('rango/sub_shows_list.html', context_dict, context)
 
+@login_required
+def remove_show(request):
+	context = RequestContext(request)
+	show_id = None
+
+	if request.method == 'GET':
+		show_id = request.GET['show_id']
+
+	up = UserProfile.objects.get(user=request.user)
+
+	added = 0
+	if show_id:
+		show = TvShows.objects.get(id=int(show_id))
+		if show:
+			added = show.added - 1
+			show.added =  added
+			show.users.remove(request.user)
+			up.show_list.remove(show)
+			show.save()
+			up.save()
+
+	cat_list = get_category_list()
+	context_dict = {'cat_list': cat_list}
+
+	show_list = get_category_list()
+	context_dict['show_list'] = show_list
+	context_dict['user_show_list'] = up.show_list.all()
+	context_dict['up'] = up
+	
+	return render_to_response('rango/sub_shows_list.html', context_dict, context)
+
+@login_required
+def remove_show2(request):
+	context = RequestContext(request)
+	show_id = None
+
+	if request.method == 'GET':
+		show_id = request.GET['show_id']
+
+	up = UserProfile.objects.get(user=request.user)
+
+	added = 0
+	if show_id:
+		show = TvShows.objects.get(id=int(show_id))
+		if show:
+			added = show.added - 1
+			show.added =  added
+			show.users.remove(request.user)
+			up.show_list.remove(show)
+			show.save()
+			up.save()
+
+	cat_list = get_category_list()
+	context_dict = {'cat_list': cat_list}
+
+	show_list = get_category_list()
+	context_dict['show_list'] = show_list
+	context_dict['user_show_list'] = up.show_list.all()
+	context_dict['up'] = up
+	
+	return render_to_response('rango/sub_my_list.html', context_dict, context)
 
 @login_required
 def like_category(request):

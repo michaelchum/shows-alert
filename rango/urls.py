@@ -14,6 +14,10 @@ urlpatterns = patterns('',
 		url(r'^logout/$', views.user_logout, name='logout'),
 		#url(r'^like_category/$', views.like_category, name='like_category'),
 		url(r'^add_show/$', views.add_show, name='add_show'),
+		url(r'^remove_show/$', views.remove_show, name='remove_show'),
+		url(r'^remove_show2/$', views.remove_show2, name='remove_show2'),
+		#url(r'^add_from_show/$', views.add_from_show, name='add_from_show'),
+		#url(r'^remove_from_show/$', views.remove_from_show, name='remove_from_show'),
 		url(r'^suggest_category/$', views.suggest_category, name='suggest_category'),
 )
 

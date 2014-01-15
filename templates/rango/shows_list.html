@@ -11,15 +11,15 @@
 
     <div id="list">
 
-        {% if up %}
+            {% if up %}
             <ol>
                 {% for show in show_list %}
                 <li>
                     <strong>
-                    {% if show not in user_show_list %}
-                        <button data-showid="{{ show.id }}" class="rango-add btn btn-primary btn-small"><i class="icon-white icon-thumbs-up"></i> Follow</button>
-                    {% else %}
+                    {% if show in user_show_list %}
                         <button class="btn btn-success btn-small"><i class="icon-white icon-ok"></i> Following</button>
+                    {% else %}
+                        <button data-showid="{{ show.id }}" class="rango-add btn btn-primary btn-small"><i class="icon-white icon-thumbs-up"></i> Follow</button>
                     {% endif %}
                         <a href="/rango/show/{{ show.url }}">{{show.show_name}}</a>
                     {% if show.added > 1 %}
@@ -29,7 +29,7 @@
                 </li>
                 {% endfor %}
             </ol>
-        {% elif show_list %}
+            {% elif show_list %}
             <ol>
                 {% for show in show_list %}
                 <li>

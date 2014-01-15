@@ -46,7 +46,7 @@ def get_category_list():
 def get_category_list(max_results=0, starts_with=''):
 	cat_list = []
 	if starts_with:
-		cat_list = TvShows.objects.filter(name__startswith=starts_with)
+		cat_list = TvShows.objects.filter(show_name__startswith=starts_with)
 	else:
 		cat_list = TvShows.objects.all()
 
@@ -55,7 +55,7 @@ def get_category_list(max_results=0, starts_with=''):
 			cat_list = cat_list[:max_results]
 
 	for cat in cat_list:
-		cat.added = cat.users.count()
+		#cat.added = cat.users.count()
 		cat.url = encode_url(cat.show_name)
 
 	return cat_list
@@ -69,7 +69,7 @@ def suggest_category(request):
 	else:
 		starts_with = request.POST['suggestion']
 
-	cat_list = get_category_list(8, starts_with)
+	cat_list = get_category_list(TvShows.objects.count(), starts_with)
 
 	return render_to_response('rango/category_list.html', {'cat_list': cat_list }, context)
 	
@@ -111,6 +111,16 @@ def shows_list(request):
 	show_list = get_category_list()
 
 	context_dict = {'show_list': show_list}
+
+	try:
+		up = UserProfile.objects.get(user=request.user)
+		context_dict['up'] = up
+	except:
+		up = None
+
+	if up:
+		user_show_list = up.show_list.all()
+		context_dict['user_show_list'] = user_show_list
 
 	# Get the category list and display on page for sidebar
 	cat_list = get_category_list()
@@ -255,8 +265,8 @@ def my_list(request):
 	up = UserProfile.objects.get(user=request.user)
 
 	if up:
-		show_list = up.show_list.all()
-		context_dict['show_list'] = show_list
+		user_show_list = up.show_list.all()
+		context_dict['user_show_list'] = user_show_list
 
 	return render_to_response('rango/my_list.html', context_dict, context)
 
@@ -272,11 +282,11 @@ def user_logout(request):
 def add_show(request):
 	context = RequestContext(request)
 	show_id = None
+
 	if request.method == 'GET':
 		show_id = request.GET['show_id']
 
-	u = User.objects.get(username=request.user)
-	up = UserProfile.objects.get(user=u)
+	up = UserProfile.objects.get(user=request.user)
 
 	added = 0
 	if show_id:
@@ -284,11 +294,21 @@ def add_show(request):
 		if show:
 			added = show.added + 1
 			show.added =  added
-			show.users.add(u)
+			show.users.add(request.user)
 			up.show_list.add(show)
 			show.save()
+			up.save()
 
-	return HttpResponse(added)
+	cat_list = get_category_list()
+	context_dict = {'cat_list': cat_list}
+
+	show_list = get_category_list()
+	context_dict['show_list'] = show_list
+	context_dict['user_show_list'] = up.show_list.all()
+	context_dict['up'] = up
+	
+	return render_to_response('rango/sub_shows_list.html', context_dict, context)
+
 
 @login_required
 def like_category(request):

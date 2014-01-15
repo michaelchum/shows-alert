@@ -48,7 +48,8 @@ def getLatestEpisodes():
 				image = url.a.find('img')['src']
 			
 			for url in links.find_all('div', {'class' : 'postcontent'}):
-			
+				show = url.a.get('title').split(' Full Episodes')[0]
+							
 			if title is not None:
 				p = None
 				if (TvShows.objects.filter(show_name=show).count() < 1):
@@ -56,14 +57,7 @@ def getLatestEpisodes():
 					p.save()	
 				else:
 					p = TvShows.objects.get(show_name=show)											
-<<<<<<< HEAD
 
-				if (Episode.objects.filter(show_link=stream).count() < 1):
-				 		a = Episode(show=p, show_link=stream, season_episode=title)
-				 		a.save()
-	
-getLatestEpisodes()
-=======
 
 				if (Episode.objects.filter(show_link=stream).count() < 1):
 				 		a = Episode(show=p, show_link=stream, season_episode=title)

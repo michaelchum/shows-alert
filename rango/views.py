@@ -69,7 +69,7 @@ def suggest_category(request):
 	else:
 		starts_with = request.POST['suggestion']
 
-	cat_list = get_category_list(8, starts_with)
+	cat_list = get_category_list(TvShows.objects.count(), starts_with)
 
 	return render_to_response('rango/category_list.html', {'cat_list': cat_list }, context)
 	

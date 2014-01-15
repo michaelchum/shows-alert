@@ -16,6 +16,7 @@ $(document).ready(function() {
                 query = $(this).val();
                 $.get('/rango/suggest_category/', {suggestion: query}, function(data){
                 	$('#cats').html(data);
+
                 });
         });
 
@@ -31,4 +32,5 @@ function initBinding()
                            initBinding()
                        });
             });
+
 }

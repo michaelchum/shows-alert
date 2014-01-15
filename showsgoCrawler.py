@@ -1,3 +1,4 @@
+import sys; sys.path.append('/Users/michaelho/shows-alert/')
 from bs4 import BeautifulSoup
 import re
 import urllib2
@@ -25,13 +26,13 @@ def getLatestEpisodes():
 	showsgoHtmls.append(showsgoHtml)
 	showsgoFile.close()
 
-	# for i in range(2, 11):
-	# 	text = "http://showsgo.com/page/%d"%i
-	# 	#print(text)
-	# 	showsgoFile = urllib2.urlopen(text)
-	# 	showsgoHtml = showsgoFile.read()
-	# 	showsgoHtmls.append(showsgoHtml)
-	# 	showsgoFile.close()	
+	for i in range(2, 11):
+		text = "http://showsgo.com/page/%d"%i
+		#print(text)
+		showsgoFile = urllib2.urlopen(text)
+		showsgoHtml = showsgoFile.read()
+		showsgoHtmls.append(showsgoHtml)
+		showsgoFile.close()	
 
 	# soup = BeautifulSoup(showsgoHtml)
 
@@ -62,7 +63,7 @@ def getLatestEpisodes():
 				if (Episode.objects.filter(show_link=stream).count() < 1):
 				 		a = Episode(show=p, show_link=stream, season_episode=title)
 				 		a.save()
-	
+
 getLatestEpisodes()
 
 # TESTING CREATING FAKE USERS
@@ -110,4 +111,5 @@ for i in Episode.objects.all():
 				i.save()
 			if p.sms_notification: # SMS
 				a = 0
+
 

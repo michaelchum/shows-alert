@@ -27,6 +27,7 @@ class Episode(models.Model):
 	season_episode = models.CharField(max_length=300)
 	sent = models.BooleanField(default=False)
 	creation_date = models.DateTimeField(auto_now_add = True, editable=False)
+	users = models.ManyToManyField(User, blank=True)
 
 	def __unicode__(self):
 		return self.season_episode
@@ -42,7 +43,7 @@ class UserProfile(models.Model):
 	user = models.OneToOneField(User)
 	show_list = models.ManyToManyField('TvShows')
 	email_notification = models.BooleanField(default=True)
-	sms_notification = models.BooleanField(default=True)
+	sms_notification = models.BooleanField(default=False)
 	newuser = models.BooleanField(default=True)
 
 	#def getLatestLink(self):

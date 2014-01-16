@@ -54,6 +54,30 @@ function initBinding()
                 	initBinding() 
                 });
         });
+      $('.add_email').click(function(){
+           $.get('/rango/add_email/', {show_id: 5}, function(data){
+                     $('#list').html(data);
+                     initBinding() 
+                 });
+      });
+      $('.remove_email').click(function(){
+           $.get('/rango/remove_email/', {show_id: 5}, function(data){
+                     $('#list').html(data);
+                     initBinding() 
+                 });
+      });
+            $('.add_sms').click(function(){
+           $.get('/rango/add_sms/', {show_id: 5}, function(data){
+                     $('#list').html(data);
+                     initBinding() 
+                 });
+      });
+      $('.remove_sms').click(function(){
+           $.get('/rango/remove_sms/', {show_id: 5}, function(data){
+                     $('#list').html(data);
+                     initBinding() 
+                 });
+      });
     /*
     $('.remove_show').hover(function () {
         $(this).removeClass('btn-success');

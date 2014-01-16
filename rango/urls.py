@@ -19,5 +19,10 @@ urlpatterns = patterns('',
 		url(r'^add_from_show/$', views.add_from_show, name='add_from_show'),
 		url(r'^remove_from_show/$', views.remove_from_show, name='remove_from_show'),
 		url(r'^suggest_category/$', views.suggest_category, name='suggest_category'),
+		url(r'^profile/$', views.profile, name='profile'),
+		url(r'^add_email/$', views.add_email, name='add_email'),
+		url(r'^remove_email/$', views.remove_email, name='remove_email'),
+		url(r'^add_sms/$', views.add_sms, name='add_sms'),
+		url(r'^remove_sms/$', views.remove_sms, name='remove_sms'),
 )
 

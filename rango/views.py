@@ -85,6 +85,9 @@ def index(request):
 	show_list = TvShows.objects.order_by('-likes')[:10]
 	episodes = Episode.objects.order_by('-creation_date')[:10]
 	encodeURL(show_list)
+	for episode in episodes:
+		episode.show.url = encode_url(episode.show.show_name)
+
 	context_dict = {'show_list': show_list, 'episodes': episodes}
 
 	# Get the category list and display on page for sidebar
@@ -458,6 +461,96 @@ def like_category(request):
 			category.save()
 
 	return HttpResponse(likes)
+
+@login_required
+def add_email(request):
+    context = RequestContext(request)
+    cat_list = get_category_list(20, '')
+    context_dict = {'cat_list': cat_list}
+    u = User.objects.get(username=request.user)
+
+    try:
+        up = UserProfile.objects.get(user=u)
+    except:
+        up = None
+
+    up.email_notification = True
+    up.save()
+
+    context_dict['user'] = u
+    context_dict['userprofile'] = up
+    return render_to_response('rango/sub_profile.html', context_dict, context)
+
+@login_required
+def remove_email(request):
+    context = RequestContext(request)
+    cat_list = get_category_list(20, '')
+    context_dict = {'cat_list': cat_list}
+    
+    try:
+        up = UserProfile.objects.get(user=request.user)
+    except:
+        up = None
+
+    up.email_notification = False
+    up.save()
+    
+    context_dict['user'] = request.user
+    context_dict['userprofile'] = up
+    return render_to_response('rango/sub_profile.html', context_dict, context)
+
+@login_required
+def add_sms(request):
+    context = RequestContext(request)
+    cat_list = get_category_list(20, '')
+    context_dict = {'cat_list': cat_list}
+    u = User.objects.get(username=request.user)
+
+    try:
+        up = UserProfile.objects.get(user=u)
+    except:
+        up = None
+
+    up.sms_notification = True
+    up.save()
+
+    context_dict['user'] = u
+    context_dict['userprofile'] = up
+    return render_to_response('rango/sub_profile.html', context_dict, context)
+
+@login_required
+def remove_sms(request):
+    context = RequestContext(request)
+    cat_list = get_category_list(20, '')
+    context_dict = {'cat_list': cat_list}
+    
+    try:
+        up = UserProfile.objects.get(user=request.user)
+    except:
+        up = None
+
+    up.sms_notification = False
+    up.save()
+    
+    context_dict['user'] = request.user
+    context_dict['userprofile'] = up
+    return render_to_response('rango/sub_profile.html', context_dict, context)
+
+
+@login_required
+def profile(request):
+    context = RequestContext(request)
+    cat_list = get_category_list(20, '')
+    context_dict = {'cat_list': cat_list}
+    
+    try:
+        up = UserProfile.objects.get(user=request.user)
+    except:
+        up = None
+    
+    context_dict['user'] = request.user
+    context_dict['userprofile'] = up
+    return render_to_response('rango/profile.html', context_dict, context)
 
 
 

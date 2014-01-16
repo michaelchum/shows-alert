@@ -5,10 +5,10 @@ import smtplib
 SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 587
 # Add your credentials here
-SMTP_USERNAME = "showsalert26"
+SMTP_USERNAME = "showsalert6"
 SMTP_PASSWORD = "megashow"
 
-EMAIL_FROM = "showsalert26@gmail.com"
+EMAIL_FROM = "showsalert6@gmail.com"
 EMAIL_SPACE = ", "
 
 def send_email(to, subject, link):

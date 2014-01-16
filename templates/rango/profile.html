@@ -1,0 +1,33 @@
+{% extends "rango/base.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block body_block %}
+<div class="hero-unit">
+              <h1> Profile <h1> <br/>
+           <h2>{{ user.username }}</h2>
+       <p>Email: {{ user.email }}</p>
+       <p>Mobile phone: {{ user.last_name }}</p>
+       <p>
+       {% if userprofile %}
+       <div id="list">
+          {% if userprofile.email_notification %}
+          <button class="remove_email btn btn-success btn-large"><i class="icon-white icon-envelope"></i> Email</button>
+          {% else %}
+          <button class="add_email btn btn-danger btn-large"><i class="icon-white icon-envelope"></i> Email</button>
+          {% endif %}
+
+          {% if userprofile.sms_notification %}
+          <button class="remove_sms btn btn-success btn-large"><i class="icon-white icon-comment"></i> SMS</button>
+          {% else %}
+          <button class="add_sms btn btn-danger btn-large"><i class="icon-white icon-comment"></i> SMS</button>
+          {% endif %}
+        </div>
+        </p>
+           <br/>
+       {% if userprofile.picture %}
+           <img src="{{ userprofile.picture.url }}"  />
+           {% endif %}
+      {% endif %}
+</div>
+{% endblock %}

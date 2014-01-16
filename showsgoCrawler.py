@@ -91,10 +91,12 @@ getLatestEpisodes()
 # 	show.users.add(a)
 # 	b = UserProfile.objects.get(user=a)
 # 	b.show_list.add(show)
-	#MICHAEL
-	# show.users.add(c)
-	# d = UserProfile.objects.get(user=c)
-	# d.show_list.add(show)
+# 	show.added = show.added + 1
+# 	# MICHAEL
+# 	show.users.add(c)
+# 	d = UserProfile.objects.get(user=c)
+# 	d.show_list.add(show)
+# 	show.added = show.added + 1
 
 
 print len(TvShows.objects.all())

@@ -25,5 +25,3 @@ if settings.DEBUG:
 				(r'media/(?P<path>.*)',
 				'serve',
 				{'document_root': settings.MEDIA_ROOT}), )
-
-urlpatterns += patterns('rango.views', url(r'^$', 'index', name='index'),)

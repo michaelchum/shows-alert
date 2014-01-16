@@ -147,7 +147,6 @@ def show(request, show_name_url):
 		show = TvShows.objects.get(show_name=show_name)
 		context_dict['show'] = show
 		show.added = show.users.count()
-		context_dict['number_added'] = show.added
 		show.save
 		latest_link = Episode.objects.filter(show=show).order_by('-creation_date')[:1]
 		latest_link = latest_link[0]
@@ -217,7 +216,7 @@ def register(request):
 		profile_form = UserProfileForm()
 	context_dict = {'user_form': user_form, 'profile_form': profile_form, 'registered': registered}
         cat_list = get_category_list(20, '')
-        context_dict['cat_list': cat_list]
+        context_dict['cat_list'] = cat_list
 	# Render the template depending on the context.
 	return render_to_response(
 		'rango/register.html',

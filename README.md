@@ -1,13 +1,6 @@
-shows-alert
+Shows Alert
 ===========
 
-E-mail notifications to get you the latest shows
+Always stay up to date with the latest episode of your favorite shows! Over 120 currently trending shows from North America and Europe. 
 
-## TODO
-
-- Create login information and link django users to our model users
-- Link user models to shows with manyToMany
-- Design the UI and decide which pages to have
-- Use bootstrap for UI then try Zurb Foundation
-- Add virtualenv to deploy
-- At the end, do cronjob
+Simply register with your e-mail and/or mobile # and start following.

@@ -69,34 +69,35 @@ getLatestEpisodes()
 # USERNAME: USMAN PW:USMAN
 # USERNAME: MICHAEL PW:MICHAEL
 
-# if authenticate(username='usman', password='usman')==None:
-# 	a = User.objects.create_user(username='usman', password='usman', email='uehtesham90@gmail.com')
-# 	a.save()
-# 	b = UserProfile(user_id=a.id)
-# 	b.newuser = False
-# 	b.save()
-# else:
-# 	a = authenticate(username='usman', password='usman')
+if authenticate(username='usman', password='usman')==None:
+	a = User.objects.create_user(username='usman', password='usman', email='uehtesham90@gmail.com')
+	a.save()
+	b = UserProfile(user_id=a.id)
+	b.newuser = False
+	b.email_notification = False
+	b.save()
+else:
+	a = authenticate(username='usman', password='usman')
 
-# if authenticate(username='michael', password='michael')==None:
-# 	c = User.objects.create_user(username='michael', password='michael', email='mickeyho92@gmail.com', last_name='15146210791')
-# 	d = UserProfile(user_id=c.id)
-# 	d.newuser = False
-# 	c.save()
-# 	d.save()
-# else:
-# 	c = authenticate(username='michael', password='michael')
+if authenticate(username='michael', password='michael')==None:
+	c = User.objects.create_user(username='michael', password='michael', email='curiousprgrmr@gmail.com', last_name='15146210791')
+	d = UserProfile(user_id=c.id)
+	d.newuser = False
+	c.save()
+	d.save()
+else:
+	c = authenticate(username='michael', password='michael')
 
-# for show in TvShows.objects.all():
-# 	show.users.add(a)
-# 	b = UserProfile.objects.get(user=a)
-# 	b.show_list.add(show)
-# 	show.added = show.added + 1
+for show in TvShows.objects.all():
+	show.users.add(a)
+	b = UserProfile.objects.get(user=a)
+	b.show_list.add(show)
+	show.added = show.added + 1
 # 	# MICHAEL
-# 	show.users.add(c)
-# 	d = UserProfile.objects.get(user=c)
-# 	d.show_list.add(show)
-# 	show.added = show.added + 1
+	show.users.add(c)
+	d = UserProfile.objects.get(user=c)
+	d.show_list.add(show)
+	show.added = show.added + 1
 
 
 print len(TvShows.objects.all())
@@ -143,6 +144,8 @@ for u in User.objects.all():
 					send_sms(to,s)
 					latest_episode.users.add(u)
 					latest_episode.save()
+				latest_episode.users.add(u)
+				latest_episode.save()
 
 
 

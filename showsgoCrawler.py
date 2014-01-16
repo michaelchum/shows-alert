@@ -66,7 +66,7 @@ def getLatestEpisodes():
 
 getLatestEpisodes()
 
-# TESTING CREATING FAKE USERS
+# TESTING CREATING SAMPLE USERS
 # USERNAME: USMAN PW:USMAN
 # USERNAME: MICHAEL PW:MICHAEL
 
@@ -115,17 +115,18 @@ for i in Episode.objects.all():
 				s = 'Here is link to the latest episode of ' + i.getSeasonAndEpisode() +' : \n' + i.getShowLink()
 				send_email(to,'Shows Alert Update', s)
 				i.sent = True
-				if u not in i.users.all():
-					i.users.add(u)
 				i.save()
+				p.episode_list.add(i)
+				p.save()
 			if p.sms_notification: # SMS
 				to = u.last_name
 				s = 'Shows Alert!\nHere is link to the latest episode of ' + i.getSeasonAndEpisode() +' : \n' + i.getShowLink()
 				send_sms(to,s)
 				i.sent = True
-				if u not in i.users.all():
-					i.users.add(u)
 				i.save()
+				if i not in p.episode_list.all():
+					p.episode_list.add(i)
+					p.save()
 
 for u in User.objects.all():
 	p = UserProfile.objects.get(user=u)
@@ -133,20 +134,17 @@ for u in User.objects.all():
 		latest_episode = Episode.objects.filter(show=show).order_by('-creation_date')[:1]
 		if (latest_episode):
 			latest_episode = latest_episode[0]
-			if u not in latest_episode.users.all():
+			if latest_episode not in p.episode_list.all():
 				if p.email_notification: # EMAIL
 					to = u.email
 					s = 'Here is link to the latest episode of ' + latest_episode.getSeasonAndEpisode() +' : \n' + latest_episode.getShowLink()
 					send_email(to,'Shows Alert Update', s)
-					latest_episode.users.add(u)
-					latest_episode.save()
+					p.episode_list.add(latest_episode)
+					p.save()
 				if p.sms_notification: # SMS
 					to = u.last_name
 					s = 'Shows Alert!\nHere is link to the latest episode of ' + latest_episode.getSeasonAndEpisode() +' : \n' + latest_episode.getShowLink()
 					send_sms(to,s)
-					latest_episode.users.add(u)
-					latest_episode.save()
-
-
-
-
+					if latest_episode not in p.episode_list.all():
+						p.episode_list.add(latest_episode)
+						p.save()

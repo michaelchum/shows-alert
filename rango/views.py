@@ -82,7 +82,7 @@ def index(request):
 	# Order the categories by no. likes in descending order
 	# Retrieve the top 5 only - or all if less than 5.
 	# Place the list in our context_dict dictionary which will be passed to the template engine
-	show_list = TvShows.objects.order_by('-likes')[:10]
+	show_list = TvShows.objects.order_by('-added')[:10]
 	episodes = Episode.objects.order_by('-creation_date')[:10]
 	encodeURL(show_list)
 	for episode in episodes:

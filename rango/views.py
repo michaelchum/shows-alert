@@ -255,12 +255,15 @@ def user_login(request):
 			print "Invalid login details: {0}, {1}".format(username, password)
 			return HttpResponse("Invalid login credentials.")
 
+	cat_list = get_category_list(20, '')
+	context_dict['cat_list'] = cat_list
+
 	# The request is not a HTTP POST, so display the login form.
 	# This scenario would most likely be a HTTP GET.
 	else:
 		# No context variables to pass to the template system, hence the
 		# blank dictionary object...
-		return render_to_response('rango/login.html', {}, context)
+		return render_to_response('rango/login.html', context_dict, context)
 
 #login_required() decorator ensures only logged in users can access the view
 

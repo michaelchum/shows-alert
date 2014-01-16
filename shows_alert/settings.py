@@ -1,6 +1,7 @@
 # Django settings for tango_project project.
 import os
-PROJECT_PATH = os.getcwd()
+#PROJECT_PATH = os.getcwd()
+PROJECT_PATH = '/home/michael/opt/myenv/shows-alert/'
 TEMPLATE_PATH = os.path.join(PROJECT_PATH, 'templates')
 STATIC_PATH = os.path.join(PROJECT_PATH, 'static')
 DATABASE_PATH = os.path.join(PROJECT_PATH, 'shows.db')

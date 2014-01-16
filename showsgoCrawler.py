@@ -84,6 +84,7 @@ if authenticate(username='michael', password='michael')==None:
 	d = UserProfile(user_id=c.id)
 	d.newuser = False
 	c.save()
+	d.email_notification = False
 	d.save()
 else:
 	c = authenticate(username='michael', password='michael')
@@ -113,7 +114,7 @@ for i in Episode.objects.all():
 				s = 'Here is link to the latest episode of ' + i.getSeasonAndEpisode() +' : \n' + i.getShowLink()
 				send_email(to,'Shows Alert Update', s)
 				i.sent = True
-				if u not in i.users:
+				if u not in i.users.all():
 					i.users.add(u)
 				i.save()
 			if p.sms_notification: # SMS
@@ -121,7 +122,7 @@ for i in Episode.objects.all():
 				s = 'Shows Alert!\nHere is link to the latest episode of ' + i.getSeasonAndEpisode() +' : \n' + i.getShowLink()
 				send_sms(to,s)
 				i.sent = True
-				if u not in i.users:
+				if u not in i.users.all():
 					i.users.add(u)
 				i.save()
 
@@ -144,8 +145,6 @@ for u in User.objects.all():
 					send_sms(to,s)
 					latest_episode.users.add(u)
 					latest_episode.save()
-				latest_episode.users.add(u)
-				latest_episode.save()
 
 
 

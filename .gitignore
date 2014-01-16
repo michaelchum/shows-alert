@@ -1,2 +1,4 @@
 *.pyc
 .DS_Store
+shows.db
+settings.py

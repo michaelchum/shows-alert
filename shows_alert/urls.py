@@ -15,7 +15,7 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
-	url('', include('rango.urls')),
+    url(r'^', include('rango.urls', namespace="rango")),
 	url(r'^rango/', include('rango.urls')),
     url(r'^admin/', include(admin.site.urls)), )
 
@@ -25,3 +25,5 @@ if settings.DEBUG:
 				(r'media/(?P<path>.*)',
 				'serve',
 				{'document_root': settings.MEDIA_ROOT}), )
+
+urlpatterns += patterns('rango.views', url(r'^$', 'index', name='index'),)

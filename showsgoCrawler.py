@@ -22,18 +22,19 @@ for links in soup.find_all('a'):
 def getLatestEpisodes():
 
 	showsgoHtmls = []
-	showsgoFile = urllib2.urlopen("http://showsgo.com/")
-	showsgoHtml = showsgoFile.read()
-	showsgoHtmls.append(showsgoHtml)
-	showsgoFile.close()
 
-	for i in range(2, 11):
+	for i in range(10, 1, -1):
 		text = "http://showsgo.com/page/%d"%i
 		#print(text)
 		showsgoFile = urllib2.urlopen(text)
 		showsgoHtml = showsgoFile.read()
 		showsgoHtmls.append(showsgoHtml)
 		showsgoFile.close()
+
+	showsgoFile = urllib2.urlopen("http://showsgo.com/")
+	showsgoHtml = showsgoFile.read()
+	showsgoHtmls.append(showsgoHtml)
+	showsgoFile.close()
 
 	for page in showsgoHtmls:
 		soup = BeautifulSoup(page)

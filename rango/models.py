@@ -11,6 +11,7 @@ class TvShows(models.Model):
 	#users = ['uehtesham90@gmail.com']
 	#name_list = models.ManyToManyField(User)
 	users = models.ManyToManyField(User, blank=True)
+	creation_date = models.DateTimeField(auto_now_add = True, editable=False)
 	
 	def __unicode__(self):
 		return self.show_name

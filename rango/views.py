@@ -37,7 +37,7 @@ def decode_url(name):
 	return name.replace('_', ' ')
 
 def get_category_list():
-	cat_list = TvShows.objects.all()
+	cat_list = TvShows.objects.order_by('-creation_date')
 
 	encodeURL(cat_list)
 

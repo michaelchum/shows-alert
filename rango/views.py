@@ -215,11 +215,13 @@ def register(request):
 	else:
 		user_form = UserForm()
 		profile_form = UserProfileForm()
-
+	context_dict = {'user_form': user_form, 'profile_form': profile_form, 'registered': registered}
+        cat_list = get_category_list(20, '')
+        context_dict['cat_list': cat_list]
 	# Render the template depending on the context.
 	return render_to_response(
 		'rango/register.html',
-		{'user_form': user_form, 'profile_form': profile_form, 'registered': registered},
+		context_dict,
 		context)
 
 def user_login(request):

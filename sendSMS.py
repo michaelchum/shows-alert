@@ -1,4 +1,3 @@
-import requests
 import os
 
 def send_sms(to,subject):

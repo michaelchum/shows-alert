@@ -9,7 +9,7 @@
                         <button class="rango-add btn btn-primary btn-small" data-showid="{{ show.id }}"><i class="icon-white icon-thumbs-up"></i> Follow</button>
                     {% endif %}
                         <a href="/rango/show/{{ show.url }}">{{show.show_name}}</a>
-                    {% if show.added > 1 %}
+                    {% if show.added > 0 %}
                         - ({{ show.added }} followers)
                     {% endif %}
                     </strong>
@@ -18,7 +18,7 @@
             </ol>
             {% elif show_list %}
             <ol>
-                {% for show in show_list %}
+                {% for show in show_list reversed %}
                 <li>
                     <strong>
                     <a href="/rango/show/{{ show.url }}">{{show.show_name}}</a>

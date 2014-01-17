@@ -111,7 +111,9 @@ def about(request):
 
 def shows_list(request):
 	context = RequestContext(request)
-	show_list = get_category_list()
+
+	show_list = TvShows.objects.order_by('-creation_date')
+	encodeURL(show_list)
 
 	context_dict = {'show_list': show_list}
 

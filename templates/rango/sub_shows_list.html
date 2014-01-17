@@ -1,5 +1,5 @@
-{% if up %}
-<ol>
+            {% if up %}
+            <ol>
                 {% for show in show_list reversed %}
                 <li>
                     <strong>
@@ -16,5 +16,22 @@
                 </li>
                 {% endfor %}
             </ol>
-<br/>
-{% endif %}
+            {% elif show_list %}
+            <ol>
+                {% for show in show_list %}
+                <li>
+                    <strong>
+                    <a href="/rango/show/{{ show.url }}">{{show.show_name}}</a>
+                    {% if show.added > 1 %}
+                        - ({{ show.added }} followers)
+                    {% endif %}
+                    </strong>
+                </li>
+                {% endfor %}
+            </ol>
+        {% else %}
+        <strong>
+            Sorry, no shows are currently available in our database.
+        </strong>
+        <br/>
+        {% endif %}

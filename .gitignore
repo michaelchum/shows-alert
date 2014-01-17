@@ -2,3 +2,4 @@
 .DS_Store
 shows.db
 shows_alert/settings.py
+shows_alert/settings.pyc

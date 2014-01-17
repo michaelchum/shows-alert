@@ -37,11 +37,11 @@ def decode_url(name):
 	return name.replace('_', ' ')
 
 def get_category_list():
-	cat_list = TvShows.objects.all().order_by('-creation_date')
+	show_list = TvShows.objects.order_by('-creation_date')
 
-	encodeURL(cat_list)
+	encodeURL(show_list)
 
-	return cat_list
+	return show_list
 
 def get_category_list(max_results=0, starts_with=''):
 	cat_list = []
@@ -313,7 +313,8 @@ def add_show(request):
 	cat_list = get_category_list(20, '')
 	context_dict = {'cat_list': cat_list}
 
-	show_list = get_category_list()
+	show_list = TvShows.objects.order_by('-creation_date')
+	encodeURL(show_list)
 	context_dict['show_list'] = show_list
 	context_dict['user_show_list'] = up.show_list.all()
 	context_dict['up'] = up
@@ -344,7 +345,8 @@ def remove_show(request):
 	cat_list = get_category_list(20, '')
 	context_dict = {'cat_list': cat_list}
 
-	show_list = get_category_list()
+	show_list = TvShows.objects.order_by('-creation_date')
+	encodeURL(show_list)
 	context_dict['show_list'] = show_list
 	context_dict['user_show_list'] = up.show_list.all()
 	context_dict['up'] = up
@@ -375,7 +377,8 @@ def remove_show2(request):
 	cat_list = get_category_list(20, '')
 	context_dict = {'cat_list': cat_list}
 
-	show_list = get_category_list()
+	show_list = TvShows.objects.order_by('-creation_date')
+	encodeURL(show_list)
 	context_dict['show_list'] = show_list
 	context_dict['user_show_list'] = up.show_list.all()
 	context_dict['up'] = up

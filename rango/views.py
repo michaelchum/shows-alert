@@ -279,6 +279,7 @@ def my_list(request):
 
 	if up:
 		user_show_list = up.show_list.all()
+		encodeURL(user_show_list)
 		context_dict['user_show_list'] = user_show_list
 
 	return render_to_response('rango/my_list.html', context_dict, context)

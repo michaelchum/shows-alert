@@ -1,1 +1,2 @@
+DJANGO_SETTINGS_MODULE = shows_alert.settings
 */10 * * * * cd /home/michael/opt/myenv/shows-alert/; source /home/michael/opt/myenv/bin/activate; python showsgoCrawler.py
